@@ -1,6 +1,6 @@
 # TASKS — easy-read-plus
 
-> Status: Draft · Version: 0.1.0 · Last updated: 2026-06-28 · Owner: J. Carter (acting maintainer) · Lane: donated
+> Status: Draft · Version: 0.2.0 · Last updated: 2026-06-29 · Owner: J. Carter (acting maintainer) · Lane: donated
 
 The backlog for the `easy-read-plus` good-deed project. Read alongside [PLAN.md](./PLAN.md).
 Milestones (M0–M3) match the roadmap there.
@@ -35,8 +35,10 @@ Each task below becomes an **Elyos Task JSON** validated against
 - **verifiedNeed** — boolean; **`false`** wherever value depends on an unsecured partner (M0/M1
   foundations); flips to `true` only when a partner is confirmed (M2).
 - **outputLicense** — **MIT** for code/tooling and for project metadata (allow-lists, schemas);
-  for **adapted content** the license is **derived** from the most restrictive asset used
-  (e.g. ARASAAC symbols ⇒ `CC BY-NC-SA 4.0`; Mulberry + OGL/PD ⇒ `CC BY-SA 4.0`).
+  for **adapted content** the license is **derived** from the most restrictive asset used. **Default
+  policy (v0.2): target `CC BY-SA 4.0` via Mulberry symbols** so outputs stay reusable by any
+  downstream public body; **`CC BY-NC-SA 4.0` only when ARASAAC** is used for concept coverage (the
+  NC clause is ambiguous for public-sector reuse, so ARASAAC is opt-in).
 
 ---
 
@@ -49,11 +51,11 @@ Goal: stand up standards/license/validation machinery and prove the pipeline on 
 |---|---|---|---|---|---|---|---|
 | easy-read-plus-sources-001 | Build source allow-list (open/PD/CC/OGL) with license terms + snapshot hash/archive | data | small | low | dataset | — | Maintainer / License reviewer |
 | easy-read-plus-assets-001 | Build symbol + font asset allow-list with per-asset licenses (NC/SA flags, output-license implication) | data | small | low | dataset | — | License reviewer / Maintainer |
-| easy-read-plus-spec-001 | Easy Read style specification (Inclusion Europe / ISO 24495-1 / COGA) | design-spec | medium | low | document | — | Cognitive-accessibility reviewer |
+| easy-read-plus-spec-001 | Easy Read style specification (Inclusion Europe / ISO 24495-1 / COGA; reconcile with easyreadstandard.org + record Inclusion Europe logo eligibility; state readability formulas are advisory only) | design-spec | medium | low | document | — | Cognitive-accessibility reviewer |
 | easy-read-plus-spec-002 | Dyslexia-friendly typography + layout specification (BDA, evidence-based) | design-spec | medium | low | document | — | Dyslexia-aware reviewer |
 | easy-read-plus-validate-001 | Reader-validation (co-production) protocol + checklist + consent/fair-pay ethics | writing | small | medium | document | — | Cognitive-accessibility reviewer |
-| easy-read-plus-fidelity-001 | Meaning-fidelity checklist + agent `UNCERTAIN:` flag format | writing | small | low | document | — | Maintainer |
-| easy-read-plus-a11y-001 | Accessible-output checklist (WCAG 2.2 AA / PDF-UA basics) | writing | small | low | document | — | Maintainer |
+| easy-read-plus-fidelity-001 | Meaning-fidelity checklist + agent `UNCERTAIN:` flag format + back-translation / round-trip comprehension check | writing | small | low | document | — | Maintainer |
+| easy-read-plus-a11y-001 | Accessible-output checklist (WCAG 2.2 AA / PDF-UA basics) + alt-text policy (no sentence duplication; decorative `alt=""`; coordinate with a11y-alttext-commons) | writing | small | low | document | — | Maintainer |
 | easy-read-plus-license-000 | **BLOCKING:** confirm derivative permission + attribution for first source AND every symbol/font used | research | small | low | document | sources-001, assets-001 | License reviewer / Maintainer |
 | easy-read-plus-adapt-001 | Adapt one **standard** document into Easy Read + dyslexia-friendly (reader-validated) | writing | medium | medium | document | spec-001, spec-002, validate-001, fidelity-001, a11y-001, **license-000** | Cognitive-accessibility + dyslexia-aware reviewers + reader-validators |
 | easy-read-plus-tooling-001 | Content JSON schemas + CI structural check + minimal source/asset-change re-fetch | code | small | low | pr | sources-001, assets-001 | Maintainer |
@@ -72,13 +74,19 @@ Goal: stand up standards/license/validation machinery and prove the pipeline on 
 - Validates against `sourceAllowListSchema` and passes CI structural checks (`tooling-001`).
 
 `assets-001` (symbol + font allow-list) — **critical license gate**
-- `assets/symbols.yaml` lists ≥ 2 **open** symbol sets (e.g. ARASAAC, Mulberry) with `licenseName`,
-  `licenseUrl`, `nonCommercial`/`shareAlike` flags, attribution template, and
-  `outputLicenseImplication` (e.g. ARASAAC ⇒ output must be NC-SA).
+- `assets/symbols.yaml` lists ≥ 2 **open** symbol sets with **Mulberry (CC BY-SA) as the default**
+  and **ARASAAC (CC BY-NC-SA) opt-in**, each with `licenseName`, `licenseUrl`, the **pinned exact CC
+  version** (e.g. Mulberry CC BY-SA 2.0 UK), `nonCommercial`/`shareAlike` flags, attribution
+  template, and `outputLicenseImplication` (Mulberry ⇒ output may be BY-SA; ARASAAC ⇒ output must be
+  NC-SA, with a note that NC is ambiguous for public-sector reuse). Sclera (CC0-ish/PD) and Global
+  Symbols (per-set) may be listed with per-set verification.
+- **Per-pictogram provenance** is required where a set (notably **ARASAAC**) mixes third-party
+  contributions — license is recorded at the symbol level in `assets-manifest.yaml`, not just per-set.
 - `assets/fonts.yaml` lists ≥ 3 **open** fonts (e.g. Atkinson Hyperlegible, OpenDyslexic, Lexend)
   with OFL/open license + attribution/reserved-name notes.
-- **Proprietary assets (Photosymbols, CHANGE picture bank, stock photos, commercial fonts) are
-  recorded as `excluded` with reason** — none may be used.
+- **Proprietary assets (Photosymbols, CHANGE picture bank, Widgit, PCS/Mayer-Johnson,
+  SymbolStix/n2y, stock photos, commercial fonts) are recorded as `excluded` with reason** — none
+  may be used.
 - Each entry has `verifiedBy` + `verifiedDate`; validates against `assetAllowListSchema`.
 
 `license-000` (BLOCKING prerequisite of `adapt-001`)
@@ -91,13 +99,16 @@ Goal: stand up standards/license/validation machinery and prove the pipeline on 
 
 `adapt-001` (first adaptation — standard/non-high-stakes)
 - `license-000` passed across all three layers **before drafting**.
+- **Upstream co-design touchpoint held** before drafting (people with intellectual disabilities
+  consulted on priority/framing/known confusions), recorded in `validation.yaml`.
 - The chosen **standard (non-high-stakes)** document is adapted into **both** an Easy Read version
   (`easy-read.md` + accessible HTML/PDF, one supporting symbol per idea, short sentences, glossary
   for hard words) and a **dyslexia-friendly** version (`dyslexia-friendly.md` + styled HTML/PDF per
   `spec-002`).
 - **Meaning fidelity:** every condition, negation, caveat, and "only if…" in the source is
-  preserved; meaning-fidelity reviewer signs off against the source; agent `UNCERTAIN:` flags are
-  all `resolved`/`accepted-as-is` (none open) in `validation.yaml`.
+  preserved; meaning-fidelity reviewer signs off against the source **including a back-translation /
+  round-trip comprehension check** (an independent restatement compared to source intent); agent
+  `UNCERTAIN:` flags are all `resolved`/`accepted-as-is` (none open) in `validation.yaml`.
 - **Reader-validated:** ≥ 1 reader-validation round with people with learning disabilities; outcomes
   + resulting edits recorded in `validation.yaml`; consent + fair pay handled out-of-band, **no PII
   committed**.
@@ -112,14 +123,28 @@ Goal: stand up standards/license/validation machinery and prove the pipeline on 
   an advocacy/self-advocacy route, **accessible informed consent**, **fair pay**, what validators
   check (comprehension, image fit, usability), how outcomes/changes are recorded, and the rule that
   **no Easy Read ships without validation**. Defines that **no PII** is committed.
+- Covers **upstream co-production** as well as downstream: people with intellectual disabilities act
+  as **consultants at the start** (co-design / priority-setting) **and quality checkers at the end**
+  (per NHS England best practice), not only post-draft.
+- **Defines the validation sample/method concretely** so "reader-validated" is auditable, not vibes:
+  how many readers per round, recruitment route, comprehension instrument, and the **"pass"
+  threshold** — and states that readability formulas (Flesch-Kincaid etc.) are **advisory only** and
+  never substitute for reader-validation.
+- **≥ 1 reader-validator / advocacy validation route is secured in M0** (recruitment runs in
+  parallel from M0) so the M0 pilot can actually be reader-validated; the network scales to ≥ 3 in
+  M1 (`validators-001`).
 
 **M0 Definition of Done:** source allow-list (≥ 3 verified, derivative-permitting sources, snapshot
-hash/archive) + asset allow-list (≥ 2 open symbol sets, ≥ 3 open fonts, NC/SA flags) + both style
-specs + reader-validation/meaning-fidelity/accessibility checklists merged; **first source + assets'
-derivative/attribution permission confirmed (`license-000`)** before drafting; **one standard
-document adapted into Easy Read + dyslexia-friendly, meaning-fidelity reviewed, reader-validated,
-license-clear, and output-accessibility verified**; content JSON schemas + minimal structural check
-+ minimal source/asset-change re-fetch green in CI. "100%/≥90%" metrics **effective from M1**.
+hash/archive) + asset allow-list (≥ 2 open symbol sets — **Mulberry default, ARASAAC opt-in**,
+pinned CC versions, per-pictogram provenance where needed; ≥ 3 open fonts, NC/SA flags) + both style
+specs (house style reconciled with easyreadstandard.org, logo eligibility recorded) + reader-
+validation (sample/method defined; upstream co-design + back-translation)/meaning-fidelity/
+accessibility (alt-text policy) checklists merged; **≥ 1 reader-validator / advocacy validation route
+secured in M0** (parallel recruitment); **first source + assets' derivative/attribution permission
+confirmed (`license-000`)** before drafting; **one standard document adapted into Easy Read +
+dyslexia-friendly, meaning-fidelity reviewed (incl. back-translation), reader-validated, license-
+clear, and output-accessibility verified**; content JSON schemas + minimal structural check +
+minimal source/asset-change re-fetch green in CI. "100%/≥90%" metrics **effective from M1**.
 Partner adoption deferred to M2 (M0 deliverables carry `verifiedNeed: false`).
 
 ---

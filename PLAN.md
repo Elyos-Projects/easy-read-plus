@@ -1,6 +1,6 @@
 # PLAN — easy-read-plus
 
-> Status: Draft · Version: 0.1.0 · Last updated: 2026-06-28 · Owner: J. Carter (acting maintainer) · Lane: donated
+> Status: Draft · Version: 0.2.0 · Last updated: 2026-06-29 · Owner: J. Carter (acting maintainer) · Lane: donated
 
 > **Positioning:** Essential information, made truly readable — for the people most often left
 > out of it. `easy-read-plus` adapts already-trustworthy public information into two
@@ -41,14 +41,21 @@ therefore designed in from M0, not bolted on:
    fidelity exactly as `vital-info-translations` treats dosage/negation accuracy: a hard,
    checklisted, human-verified gate, with explicit agent uncertainty flags that **block** sign-off.
 2. **Co-production.** The recognized standard for Easy Read (Inclusion Europe's *Information for
-   All*; UK Accessible Information practice) requires that materials are **made and tested with
-   people with learning disabilities**. We make reader-validation a mandatory gate — and we pay
-   validators fairly, record informed consent, and commit **no personal data**.
+   All*; UK Accessible Information / NHS England practice) requires that materials are **made and
+   tested with people with learning disabilities**. Best practice engages them **as consultants at
+   the start** (co-design / priority-setting) **and as quality checkers at the end** — so we move
+   reader involvement *upstream* of drafting as well as making post-draft reader-validation a
+   mandatory gate. We pay validators fairly, record informed consent, and commit **no personal
+   data**.
 3. **Triple-layer licensing.** Unlike a text-only project, every Easy Read document mixes three
    licensed asset classes — **source content**, **symbols/pictograms**, and **fonts**. Each has
    different, sometimes incompatible terms (e.g. ARASAAC symbols are **CC BY-NC-SA** — non-
-   commercial and share-alike; Photosymbols is **proprietary**). The output license must be
-   compatible with the *most restrictive* asset it contains. This is encoded as checkable data.
+   commercial and share-alike; Mulberry is **CC BY-SA** — commercial reuse allowed; Photosymbols,
+   Widgit, PCS, and SymbolStix are **proprietary**). The output license must be compatible with the
+   *most restrictive* asset it contains. **CC's NonCommercial clause is genuinely ambiguous for
+   public-sector/charity re-publication**, so v0.2 **defaults to Mulberry (BY-SA)** to keep outputs
+   reusable by any downstream public body, treating ARASAAC as opt-in. This is encoded as checkable
+   data and computed, not asserted.
 
 Honest status note: the program is real but **no specific partner organization or named
 requestor is yet secured**. Until one is, `verifiedNeed` is recorded as `false` on tasks whose
@@ -57,17 +64,29 @@ audience) cannot be fully met. Securing a first partner is the top open dependen
 questions and Roadmap M2). M0/M1 are deliberately partner-independent so that foundations and a
 proven pipeline exist *before* a partner is found.
 
-**Locked decisions (v0.1):**
-- **Lane:** donated. No funded/API-key execution in v0.1.
+**Locked decisions (v0.2):**
+- **Lane:** donated. No funded/API-key execution in v0.1/v0.2.
 - **Two outputs, one source:** every adaptation produces an Easy Read version *and* a
   dyslexia-friendly version from one provenance-tracked source.
 - **Standards anchors:** Inclusion Europe *Information for All*, ISO 24495-1:2023 (Plain
-  language), W3C/WAI **COGA** *Making Content Usable*, WCAG 2.2 (for output accessibility), and
-  the **British Dyslexia Association (BDA) Dyslexia Style Guide** for typography.
-- **Open assets only:** symbols from **ARASAAC / Mulberry / open Global Symbols sets**; fonts from
-  **Atkinson Hyperlegible, OpenDyslexic, Lexend** (+ standard sans-serif per BDA). **Photosymbols,
-  CHANGE picture bank, and other proprietary symbol/photo libraries are excluded** unless a
-  written license is obtained.
+  language), W3C/WAI **COGA** *Making Content Usable*, WCAG 2.2 (for output accessibility), the
+  **British Dyslexia Association (BDA) Dyslexia Style Guide** for typography, and — new in v0.2 —
+  reconciliation of house style against the **easyreadstandard.org** evidence-based framework, with
+  **Inclusion Europe European Easy-to-Read logo** eligibility recorded (the logo generally requires
+  validation by people with intellectual disabilities, which this project enforces).
+- **Open assets only — symbol default is Mulberry (CC BY-SA), ARASAAC is opt-in (v0.2 change):**
+  default to **Mulberry Symbols (CC BY-SA, commercial reuse allowed)** so outputs stay reusable by
+  *any* downstream public body; **ARASAAC (CC BY-NC-SA) is used opt-in only** where concept coverage
+  demands it, and then the output is declared **NC-SA**. **Open Global Symbols** sets are verified
+  per-set. Pin the **exact CC version** per set and record license at the **per-pictogram** level
+  (ARASAAC mixes third-party contributions). Fonts from **Atkinson Hyperlegible, OpenDyslexic,
+  Lexend** (+ standard sans-serif per BDA). **Photosymbols, CHANGE picture bank, Widgit, PCS
+  (Mayer-Johnson), SymbolStix (n2y), and other proprietary symbol/photo libraries are excluded**
+  unless a written license is obtained.
+- **Co-production is upstream *and* downstream (v0.2 change):** people with intellectual
+  disabilities are engaged as **consultants at the start** (co-design / priority-setting) and as
+  **quality checkers at the end** (validation) — not only post-draft. Validator recruitment runs in
+  **parallel from M0**, not M1, so the M0 pilot can actually be reader-validated.
 - **Stack:** TypeScript + ESM + pnpm for tooling; **Markdown** as canonical content, exported to
   **accessible (tagged) HTML and PDF/UA**; **YAML** for metadata; JSON Schema validation in
   `packages/schema`.
@@ -115,6 +134,67 @@ self-advocacy organizations (e.g. Mencap, People First / self-advocacy groups, I
 members), dyslexia associations (e.g. the BDA), public libraries, local councils' accessible-
 information teams, NHS/health-body accessible-information leads, and disability-rights NGOs. None
 is committed as of this draft.
+
+## Competitive landscape & differentiation
+
+Cognitive-accessibility / Easy Read is an active field, but its capable producers are
+**proprietary, bespoke, or single-org**, and its open assets produce **no co-produced content**.
+That intersection — open content × paid co-production × machine-checkable licensing — is empty, and
+it is exactly where `easy-read-plus` sits.
+
+**Landscape (web-grounded; see COMPETITIVE-ANALYSIS.md for sources).**
+- **Inclusion Europe — *Information for All*** — the European Easy-to-Read standard plus a
+  logo/trademark signalling validation. Authoritative, rights-based, multilingual — but a
+  *standard*, not a content factory; no open tooling, symbol set, or licensing automation.
+- **Photosymbols (+ EasyMaker)** — dominant proprietary photo image-bank + authoring tool with a
+  fair-pay model for its photo models. **Subscription-locked**; publishing Easy Read *for other
+  organizations* requires a separate **£3,500 Extended Use** licence; outputs are not open/forkable.
+- **CHANGE** — learning-disability charity; **gold-standard co-production** via trained checkers
+  with learning disabilities ("Words to Pictures"). But its picture bank is **subscription/
+  proprietary** and the offer is a bespoke service, not an open commons; UK-centric.
+- **Mencap Easy Read library** — large, free, co-produced library. But only **Mencap's own topics**,
+  with unclear reuse/derivative terms, no reusable pipeline/spec, and no dyslexia track.
+- **Inspired Services / Photosymbols-adjacent suppliers and government Easy Read suppliers** —
+  competent commissioned producers serving public bodies, but closed deliverables tied to
+  proprietary symbol stacks, with little provenance or open licensing.
+- **Widgit / PCS (Mayer-Johnson) / SymbolStix (n2y)** — widely used **proprietary** symbol sets +
+  paid authoring software; lock-in; output reuse constrained by licence.
+- **ARASAAC** — ~10k+ open pictograms (**CC BY-NC-SA**): free, vast, multilingual, but the **NC
+  clause** limits/clouds commercial and public-sector reuse, and it is symbols only.
+- **Mulberry Symbols** — open (**CC BY-SA, commercial OK**), SVG/vector; smaller set than ARASAAC;
+  symbols only. **Sclera** — largely CC0-ish open pictographs; symbols only.
+- **Global Symbols** — aggregator/host with **per-set** licensing (verify each); not a producer.
+- **Books Beyond Words** — strong co-production but a **wordless** narrative format (not text+symbol
+  Easy Read), proprietary, narrow to story genres.
+- **PLAIN / plainlanguage.gov / ISO 24495** — authoritative plain-language method basis, but plain
+  language ≠ Easy Read (no symbols, not ID-specific, no co-production requirement).
+- **Generic LLM "simplifiers"** — fast and cheap, but **no provenance, no symbol licensing, no
+  co-production, no fidelity gate** — precisely the unsafe pattern this plan rejects.
+
+**Cross-cutting market reality.** The evidence base for Easy Read effectiveness is **weak/mixed**:
+systematic reviews find insufficient high-quality evidence that it improves comprehension or
+behavior change, and illustration effects are mixed. This is both a *risk* (do not over-claim) and
+an *opportunity* — a project that systematically logs reader-comprehension outcomes contributes rare
+field evidence (see Success metrics; Adjacent opportunities).
+
+**Our differentiators (how we win).**
+1. **Open symbols + open output, end to end** — source, symbols (Mulberry/ARASAAC), fonts (OFL),
+   *and* the **derived** output license are all open and attributed. No £3,500 extended-use trap;
+   any public body can reuse.
+2. **Co-production as a hard, fairly-paid gate** (not "user testing") — matches CHANGE/Mencap ethics
+   but in a **reusable, openly-licensed** package, with consent + fair pay + no-PII designed in, and
+   reader involvement **upstream and downstream**.
+3. **License-derived-not-asserted, machine-checked** — the three-layer manifest → required-output-
+   license computation (`license-002`) is an engineering moat competitors lack.
+4. **Translation-grade meaning-fidelity gate** — `UNCERTAIN:` flags that *block* sign-off (borrowed
+   from `vital-info-translations`), plus a back-translation/round-trip check; turns "AI
+   simplification" from unsafe to auditable.
+5. **Two outputs, one meaning-checked core** (Easy Read + dyslexia-friendly) — broader reach per
+   unit of fidelity work; few producers ship both.
+6. **Evidence honesty** — explicitly refuses "dyslexia font cures dyslexia" and Easy Read
+   over-claims, citing the mixed evidence. A trust differentiator with expert partners.
+7. **Output-file accessibility discipline** — tagged HTML + PDF/UA, where much existing Easy Read is
+   image-only PDF that defeats screen readers.
 
 ## Goals and non-goals
 
@@ -245,6 +325,11 @@ artifacts) with light tooling. It rides existing Elyos donated-lane mechanics (C
 workspace → human runs agent → PR opened → human/expert review gates "done").
 
 **Pipeline (per document → two outputs)**
+0. **Co-design / priority-setting (upstream co-production)** — *before* drafting, engage people with
+   intellectual disabilities as **consultants** on what to adapt and what matters most (priority,
+   framing, known confusions). This is the upstream half of co-production (NHS England best practice
+   is "consultants at the start, quality checkers at the end") and is recorded in the validation
+   record; it does **not** replace the post-draft validation gate.
 1. **Select & verify source** — confirm the document is on the source allow-list; re-verify the
    source's current license and that **derivatives are permitted**; record provenance (URL,
    version/date, retrieval date, license snapshot + hash).
@@ -258,14 +343,21 @@ workspace → human runs agent → PR opened → human/expert review gates "done
 5. **Agent self-check** — agent runs the meaning-fidelity + style checklists and **emits explicit
    `UNCERTAIN:` flags** for anything it is unsure changed meaning; flags are copied into the
    validation record and **block** sign-off until resolved.
-6. **Meaning-fidelity review** — a human reviewer verifies nothing material was lost or changed
-   against the source (mandatory; second reviewer + credentialed expert for high-stakes).
+6. **Meaning-fidelity review (with back-translation)** — a human reviewer verifies nothing material
+   was lost or changed against the source (mandatory; second reviewer + credentialed expert for
+   high-stakes). The reviewer also performs a **back-translation / round-trip comprehension check**:
+   a reader or independent reviewer restates, in their own words, what the Easy Read says, which is
+   compared against the source intent — a cheaper and more sensitive detector of *silent* meaning
+   loss than a checklist alone.
 7. **Reader-validation (co-production)** — people with learning disabilities review the Easy Read
    version for comprehension/usability; outcomes + changes recorded (consent + fair pay; no PII).
 8. **License & attribution check** — source + every symbol + every font attributed; output license
    compatible with the most restrictive asset; provenance complete.
 9. **Accessibility check** — output files have real text, heading structure, alt text, correct
-   reading order; pass WCAG 2.2 AA basics / PDF-UA.
+   reading order; pass WCAG 2.2 AA basics / PDF-UA. **Alt-text policy:** a supporting symbol's alt
+   text must **not merely repeat the adjacent sentence** (that creates screen-reader redundancy);
+   where a symbol is purely decorative to the adjacent text, mark it `alt=""`. Alt-text approach is
+   coordinated with the sibling `a11y-alttext-commons` project.
 10. **Package & deliver** — assemble the bundle, hand to partner/audience; record adoption +
     feedback.
 
@@ -307,9 +399,39 @@ package, not in adapters.
 - **Two specs, one meaning.** Both outputs derive from a single meaning-checked content core, so
   fidelity is verified once and both formats inherit it.
 - **Reader-validation is a gate, not a metric.** No Easy Read ships without it.
+- **Readability formulas are advisory only.** Flesch-Kincaid and similar formulas are **weak
+  proxies** for intellectual-disability comprehension and **never substitute** for reader-validation
+  (this is baked into `spec-001`/`readability-001`).
 - **Output must be accessible as a file**, not just simpler as prose.
 - **No data ingestion from people.** We pull only public, allow-listed sources; validator
   participation is consented and recorded without committing PII.
+
+**Claude API leverage (drafting aids only; the human gates the model never replaces).** In the
+donated lane the human runs their own agent; where that agent is Claude, it is used to **accelerate
+co-production, never to replace it**. High-value, human-gated uses:
+- **First-draft plain-language simplification** of an allow-listed source into the Easy Read style
+  spec (short sentences, one idea per line, common words), emitted **with** blocking `UNCERTAIN:`
+  fidelity flags for every dropped condition/negation/caveat.
+- **Symbol *suggestion* (not selection)** — propose candidate Mulberry/ARASAAC pictograms per idea
+  **by stable id from the allow-list**, with a `symbol-fit` confidence flag, for a human + reader to
+  confirm. The model proposes; co-production disposes.
+- **Meaning-fidelity assistant** — generate a structured source-vs-draft diff highlighting
+  conditions/negations/"only if" clauses, plus the **back-translation** restatement, for the human
+  reviewer to verify; draft glossary entries for unavoidable hard words.
+- **Readability + structural lint** — flag long sentences, rare words, passive voice, missing alt
+  text (advisory signal feeding `readability-001`), **never** a pass/fail substitute for
+  reader-validation.
+- **Dyslexia-friendly structural pass** — apply BDA layout/structure to the same meaning-checked
+  content.
+
+**Where the model must NOT decide (hard lines).** Co-production is mandatory and human — model
+output is never reader-validation, and no AI-only Easy Read ships, full stop. Accuracy-when-
+simplified is **human-verified** against the source; unresolved `UNCERTAIN:` flags block "done" (the
+model may flag, never clear). Symbol/source/font licensing is **human-verified** (`license-000` is a
+written human gate); the model may *draft* allow-list entries but a license reviewer confirms
+derivative permission, NC/SA flags, and the derived output license. **High-stakes** domains
+(medical/legal/safety/benefits/financial) require **credentialed-expert sign-off** and verbatim
+"information, not advice" framing — never the model alone. **No headless/automated lane** in v0.1/v0.2.
 
 ## Data, licensing & compliance
 
@@ -334,16 +456,28 @@ where possible, whether **derivatives are permitted**, the required attribution 
 **risk-domain** classification.
 
 **2. Symbols / pictograms (asset allow-list).** This is a frequently-missed compliance trap.
-- **ARASAAC** — **CC BY-NC-SA**: attribution + **non-commercial** + **share-alike**. Using ARASAAC
-  symbols forces the output to be **NC + SA** (blocks downstream commercial reuse; most public-good
-  distribution is fine, but this must be declared, not assumed).
-- **Mulberry Symbols** — **CC BY-SA** (attribution + share-alike, **commercial allowed**) —
-  generally preferred where a more reusable output license is wanted.
+- **Mulberry Symbols — the v0.2 default.** **CC BY-SA** (attribution + share-alike, **commercial
+  reuse allowed**), SVG/vector. Preferred precisely so outputs stay reusable by *any* downstream
+  public body. *Pin the exact CC version* in `assets/symbols.yaml`: upstream is historically
+  **CC BY-SA 2.0 UK** (some redistributions offer 3.0/4.0), and SA-compatibility across CC versions
+  is non-trivial.
+- **ARASAAC — opt-in only.** **CC BY-NC-SA 4.0**: attribution + **non-commercial** + **share-alike**
+  (author Sergio Palao; owner Government of Aragón). Using ARASAAC forces the output to **NC-SA**.
+  **The NonCommercial clause is genuinely ambiguous for public-sector/charity re-publication** —
+  CC's NC test turns on the *primary purpose* of the use, and a council or NHS body re-publishing
+  the output could be argued either way. **Policy:** prefer Mulberry; use ARASAAC **only where
+  concept coverage demands it**, and then declare the output NC-SA up front. ARASAAC also **mixes
+  its own work with third-party contributions**, so verify and record license at the **per-pictogram
+  level** (in `assets-manifest.yaml`), not just per-set.
+- **Sclera** — largely **CC0-ish / public-domain** pictographs; openly usable; verify per asset.
 - **Global Symbols** — an aggregator; **license is per-set** — verify each set individually.
-- **Photosymbols, CHANGE picture bank, stock-photo libraries** — **proprietary / excluded** unless
-  a written license is on file.
-Each symbol set is recorded with `nonCommercial`/`shareAlike` flags and its **implication for the
-output license**.
+- **Photosymbols, CHANGE picture bank, Widgit, PCS (Mayer-Johnson), SymbolStix (n2y), stock-photo
+  libraries** — **proprietary / excluded** unless a written license is on file. (Photosymbols
+  notably charges a separate **£3,500 Extended Use** licence to publish Easy Read for *other*
+  organizations — exactly the trap open assets avoid.)
+Each symbol set is recorded with `nonCommercial`/`shareAlike` flags, the **pinned CC version**, and
+its **implication for the output license**; ARASAAC entries additionally carry per-pictogram
+provenance.
 
 **3. Fonts (asset allow-list).**
 - **Atkinson Hyperlegible** (SIL **OFL**), **OpenDyslexic** (open), **Lexend** (OFL) — open,
@@ -372,9 +506,11 @@ gate.
 
 **Output licensing.** Code/tooling is **MIT**. Adapted **content's license is derived** from the
 most restrictive input: if any ARASAAC (NC-SA) symbol is used, the output is **CC BY-NC-SA**; if
-only Mulberry (BY-SA) + OGL/PD source, the output can be **CC BY-SA**; and so on. We **never**
-relicense to a more permissive license than the inputs allow. Where a source forbids derivatives,
-we obtain permission or do not adapt it.
+only Mulberry (BY-SA) + OGL/PD source, the output is **CC BY-SA**; and so on. **Default policy
+(v0.2): target CC BY-SA** by using Mulberry symbols, so every output is reusable by any downstream
+public body; **CC BY-NC-SA is accepted only when an adaptation must use ARASAAC** for concept
+coverage, and is declared per deliverable. We **never** relicense to a more permissive license than
+the inputs allow. Where a source forbids derivatives, we obtain permission or do not adapt it.
 
 **Privacy / PII & co-production ethics.** Sources are public; we ingest **no personal data**.
 Reader-validators (people with learning disabilities) and reviewers participate under **informed
@@ -441,22 +577,30 @@ requesting partner/audience** for real use. Merged-but-not-adopted is **not** sh
 Goal: stand up the standards/license/validation machinery and prove the pipeline on one **standard
 (non-high-stakes)** document, end-to-end except final adoption.
 Exit criteria: source allow-list with ≥ 3 verified sources (hash/archived snapshots + minimal
-re-fetch check); **asset allow-list with ≥ 2 open symbol sets + ≥ 3 open fonts**, each with NC/SA
-flags and output-license implication; **Easy Read** and **dyslexia-friendly** style specs merged;
-**reader-validation protocol + meaning-fidelity + accessibility checklists** merged; the first
-adaptation's **BLOCKING license prerequisite** confirmed across all three layers (`license-000`)
-before drafting; **one standard document adapted into Easy Read + dyslexia-friendly, meaning-
-fidelity reviewed, reader-validated, license-clear, and output-accessibility verified** (delivery
-to a partner deferred to M2). Content JSON schemas + **minimal automated structural check** and a
+re-fetch check); **asset allow-list with ≥ 2 open symbol sets (Mulberry default; ARASAAC opt-in)
++ ≥ 3 open fonts**, each with NC/SA flags, **pinned CC version**, and output-license implication;
+**Easy Read** and **dyslexia-friendly** style specs merged (house style reconciled against
+easyreadstandard.org + Inclusion Europe logo eligibility recorded); **reader-validation protocol
+(with defined sample/method + back-translation check) + meaning-fidelity + accessibility checklists**
+merged; the first adaptation's **BLOCKING license prerequisite** confirmed across all three layers
+(`license-000`) before drafting; the first adaptation's **upstream co-design touchpoint** held; the
+first adaptation **actually reader-validated** — which requires **≥ 1 reader-validator / advocacy
+validation route secured in M0** (validator recruitment runs **in parallel from M0**, resolving the
+prior sequencing gap where the M0 pilot required validation but validators were an M1 deliverable);
+**one standard document adapted into Easy Read + dyslexia-friendly, meaning-fidelity reviewed (incl.
+back-translation), reader-validated, license-clear, and output-accessibility verified** (delivery to
+a partner deferred to M2). Content JSON schemas + **minimal automated structural check** and a
 **minimal source/asset-change re-fetch check** green in CI. `verifiedNeed` honestly `false` where
 no partner. The "100% / ≥ 90%" metrics are **effective from M1** (M0 verifies the first deliverable
 manually + structural check).
 
 **M1 — Repeatability & validator/reviewer network.**
-Goal: make the pipeline repeatable and recruit/qualify the people-gate.
+Goal: make the pipeline repeatable and **scale** the people-gate begun in M0.
 Exit criteria: documented validator/reviewer-qualification criteria + **≥ 3 recruited, consented,
-fairly-paid reader-validators** and ≥ 1 cognitive-accessibility reviewer (or an advocacy-org
-partner engaged); style specs + templates generalized; **readability/structural lint tooling** and
+fairly-paid reader-validators** (building on the ≥ 1 validation route secured in M0) and ≥ 1
+cognitive-accessibility reviewer (or an advocacy-org partner engaged); style specs + templates
+generalized; **readability/structural lint tooling** (advisory only; formulas never substitute for
+reader-validation) and
 **license-check tooling** (computes required output license from the assets manifest) enforced in
 CI; **automated source/asset-change watcher** operating; a **second** standard document adapted &
 validated; pipeline runbook merged. **Steward named** (governance prerequisite for M2).
@@ -567,6 +711,35 @@ criteria, and license fields. M0/M1 tasks are partner-independent foundations
   deliverables are flagged and, if required, withdrawn; provenance + manifest make impact
   assessment exact.
 
+## Adjacent opportunities
+
+These are parallel/perpendicular spin-offs surfaced by the competitive analysis. They are **not**
+v0.2 scope, but they shape where this project plugs into the portfolio and what to build reusable.
+
+- **`open-pictograms` (parallel — the symbol layer).** A curated, license-clean, machine-readable
+  index of Mulberry + ARASAAC + Sclera + Global-Symbols **with per-symbol license + derived-output-
+  license data** — i.e. this project's asset allow-list generalized into a shared dependency for the
+  whole portfolio. Strongest near-term extraction.
+- **`know-your-rights` / `benefits-navigator` (parallel — high-value Easy Read territory).**
+  Rights/benefits content is flagship Easy Read but **high-stakes**, feeding this project's
+  credentialed-expert + "not advice" gate; the projects should share a risk-domain classifier.
+- **`vital-info-translations` / `health-info-translations` (perpendicular — cross-language).**
+  Cross-language Easy Read = **both** projects' gates combined (meaning fidelity × language fidelity
+  × symbol licensing); the shared `UNCERTAIN:`-flag and provenance machinery already mirror.
+- **Plain-language compliance linter (parallel).** The readability/structural lint, packaged as a
+  standalone advisory checker (long sentences, rare words, passive voice, missing alt text) — useful
+  to any content project, with the standing caveat that it never replaces reader-validation.
+- **Reusable Easy Read pipeline (parallel, internal).** The specs + checklists + schemas + license-
+  derivation tooling as a standalone, agent-neutral toolkit any Elyos content project can ride.
+- **A cognitive-accessibility MCP server (perpendicular).** Exposes source-allow-list lookup,
+  open-symbol search by concept (returning stable ids + license + derived-output-license),
+  readability/structural lint, and a meaning-fidelity/back-translation diff — so *any* agent can
+  draft compliant Easy Read **for human/co-production review**, with **licensing enforced at the
+  tool boundary**.
+- **Reader-comprehension evidence dataset (perpendicular).** Given the field's thin/mixed evidence
+  base, a de-identified, consented comprehension log across documents is a rare research-grade
+  contribution and a credibility asset with partners and academics.
+
 ## Open questions
 
 1. **Partner / audience (blocks M2 & `verifiedNeed=true`).** Which advocacy org / public body /
@@ -584,8 +757,12 @@ criteria, and license fields. M0/M1 tasks are partner-independent foundations
 2. **Reader-validator sourcing & fair pay.** Recruit individuals via an advocacy partner, or
    contract a self-advocacy group that runs validation as a paid service? What is the pay rate and
    consent process appropriate to the audience?
-3. **Output license policy.** Default to **CC BY-SA** (use Mulberry symbols) to maximize reuse, or
-   accept **CC BY-NC-SA** when ARASAAC's larger symbol set is needed? Per-document or project-wide?
+3. **Output license policy — resolved (v0.2), residual discretion only.** Default is **CC BY-SA via
+   Mulberry symbols** project-wide; **ARASAAC (CC BY-NC-SA) is opt-in** only where concept coverage
+   demands it, and the affected deliverable is declared NC-SA. Residual per-document question: when
+   exactly is ARASAAC's coverage worth accepting an NC-SA output, and who decides? (The NC clause is
+   genuinely ambiguous for public-sector/charity re-publication, which is *why* the default is
+   BY-SA.)
 4. **High-stakes scope.** Do we take on medical/legal/benefits content at all in v0.1 (needs
    credentialed experts), or stay standard-tier until the expert network exists?
 5. **Delivery formats.** What do partners actually need — accessible HTML, PDF/UA, print-ready,
@@ -593,7 +770,16 @@ criteria, and license fields. M0/M1 tasks are partner-independent foundations
 6. **Relationship to sibling projects.** Coordinate with `a11y-alttext-commons` (alt text),
    `open-pictograms`, and the translation projects for any cross-language Easy Read.
 7. **Funded lane?** Proposal implies donated; is metered drafting under escrow ever wanted for
-   surge demand? (Out of scope for v0.1.)
+   surge demand? (Out of scope for v0.1/v0.2.)
+8. **Inclusion Europe logo eligibility.** Do we pursue formal European Easy-to-Read logo
+   eligibility, and does our validation method satisfy its requirements? (Recorded per `spec-001`.)
+9. **Evidence contribution.** Do we commit to publishing de-identified reader-comprehension outcomes
+   given the field's thin/mixed evidence base, and under what consent model?
+10. **Alt-text division of labor.** How is alt-text work split with `a11y-alttext-commons`, and what
+    is the symbol-vs-sentence redundancy policy (decorative `alt=""` vs. informative)?
+11. **Where does co-production start? — resolved (v0.2).** Pre-draft co-design (consultants) *and*
+    post-draft validation (checkers), per NHS England best practice; residual question is the pay
+    rate and recruitment route (folded into Q2).
 
 ## References
 
@@ -610,7 +796,13 @@ criteria, and license fields. M0/M1 tasks are partner-independent foundations
 - WCAG 2.2 and PDF/UA (PDF accessibility) — for output-file accessibility.
 - British Dyslexia Association — *Dyslexia Style Guide* (typography/layout).
 - plainlanguage.gov / PLAIN — Federal Plain Language Guidelines.
-- ARASAAC (CC BY-NC-SA), Mulberry Symbols (CC BY-SA), Global Symbols — symbol licensing.
+- easyreadstandard.org — evidence-based Easy Read framework (UK); Inclusion Europe European
+  Easy-to-Read logo/trademark — conformance/eligibility basis.
+- Mulberry Symbols (CC BY-SA), ARASAAC (CC BY-NC-SA), Sclera (CC0-ish/PD), Global Symbols
+  (per-set) — symbol licensing.
+- Competitive landscape (proprietary / single-org): Photosymbols (+ £3,500 Extended Use),
+  CHANGE picture bank, Mencap Easy Read library, Widgit, PCS (Mayer-Johnson), SymbolStix (n2y),
+  Books Beyond Words. See `COMPETITIVE-ANALYSIS.md` for full sources.
 - Atkinson Hyperlegible (SIL OFL), OpenDyslexic, Lexend (OFL) — font licensing.
 - UK Open Government Licence (OGL); US federal public-domain notice — source licensing examples.
 
@@ -706,3 +898,52 @@ the sections above (not merely listed):
 **Status:** Ready for maintainer review. No blocking internal inconsistencies; the binding external
 gate is **partner/audience + reader-validator sourcing** before any deliverable can reach
 "shipped."
+
+---
+
+## Changelog — v0.2 (analysis merged)
+
+Merged the findings of `COMPETITIVE-ANALYSIS.md` (source of truth) into the plan. Surgical and
+additive; no guardrail weakened. Key changes:
+
+**Correctness / license / safety fixes applied**
+1. **Co-production moved upstream *and* made a blocking, parallel-from-M0 gate.** Added a pre-draft
+   co-design / priority-setting touchpoint (pipeline step 0; "consultants at the start, checkers at
+   the end" per NHS England). **Resolved the M0 sequencing inconsistency** — the M0 pilot required
+   reader-validation while validators were an M1 deliverable; validator-route recruitment now runs
+   **in parallel from M0**, so the pilot can actually be reader-validated.
+2. **Symbol-licensing default decided: Mulberry (CC BY-SA), ARASAAC (CC BY-NC-SA) opt-in.**
+   Resolved the **NonCommercial ambiguity** for public-sector/charity re-publication by defaulting to
+   BY-SA so any downstream public body can reuse; ARASAAC used only where coverage demands it (output
+   then declared NC-SA). **Pinned exact CC versions** and require **per-pictogram** provenance
+   (ARASAAC mixes third-party work). Confirmed proprietary exclusions by name: Photosymbols (+ £3,500
+   Extended Use), Widgit, PCS, SymbolStix, CHANGE picture bank; added **Sclera (CC0-ish)** as openly
+   usable.
+3. **Meaning-fidelity strengthened with a back-translation / round-trip comprehension check** — a
+   more sensitive detector of silent meaning-loss than the checklist alone (pipeline step 6). The
+   not-losing-critical-meaning check and `UNCERTAIN:`-flags-block-sign-off remain hard gates.
+4. **High-stakes (health/legal/benefits) domain-expert + "not advice" gate preserved** and restated
+   in the new Claude-leverage hard-lines.
+5. **Alt-text policy added** (don't duplicate the adjacent sentence; decorative `alt=""`; coordinate
+   with `a11y-alttext-commons`).
+6. **Readability formulas declared advisory only** — never a substitute for reader-validation.
+7. **Standards reconciliation added** — house style reconciled against **easyreadstandard.org** and
+   **Inclusion Europe logo** eligibility recorded.
+
+**Strategy integrated**
+8. New **"Competitive landscape & differentiation"** section (Photosymbols, CHANGE, Mencap, Inspired
+   Services / government suppliers, Widgit/PCS/SymbolStix, ARASAAC, Mulberry, Sclera, Global Symbols,
+   Books Beyond Words, PLAIN, generic LLM simplifiers) with our differentiator: **open-licensed,
+   co-produced, machine-checkable Easy Read with open symbols + a meaning-fidelity gate**.
+9. **Claude API leverage folded into architecture** — first-draft simplification, symbol *suggestion*
+   by stable id, meaning-fidelity/back-translation diff, readability lint, dyslexia structural pass —
+   with explicit hard lines keeping people-with-lived-experience co-production, meaning fidelity, and
+   domain-expert review as human gates the model never replaces.
+10. **Optimizations folded into the Roadmap** (upstream co-design, validator route in M0, Mulberry
+    default + pinned versions + per-pictogram provenance, defined validation sample/method, advisory
+    readability, standards reconciliation).
+11. New **"Adjacent opportunities"** section (open-pictograms as the symbol layer; know-your-rights /
+    benefits-navigator / vital-info-translations Easy Read ties; plain-language compliance linter;
+    reusable pipeline; cognitive-accessibility MCP server; comprehension-evidence dataset).
+12. **Open questions merged** — output-license policy marked resolved (Mulberry default); added logo
+    eligibility, evidence-publication, alt-text division of labor, and co-production-start (resolved).
