@@ -1,0 +1,34 @@
+{
+  "id": "easy-read-plus-sources-001",
+  "title": "Build source allow-list (open/PD/CC/OGL) with license terms + snapshot hash/archive",
+  "project": "easy-read-plus",
+  "type": "data",
+  "lane": "donated",
+  "priority": "high",
+  "domain": ["accessibility", "plain-language", "disability", "licensing"],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "dataset",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "easy-read-plus adapts vetted, openly-licensed public information into Easy Read and dyslexia-friendly versions. Nothing may be adapted until its source is allow-listed with verified terms that permit derivative works. Source licenses vary widely (UK OGL, US federal public domain but may embed third-party material, WHO CC BY-NC-SA IGO with mandatory disclaimer, all-rights-reserved NGO content), so per-source verification is mandatory before any adaptation.",
+  "objective": "Create a structured, per-source allow-list recording each approved source's license, derivative permission, required attribution, risk-domain classification, and a hashed/archived license snapshot, so the per-deliverable license gate can be checked consistently and source drift detected.",
+  "acceptanceCriteria": [
+    "sources/allow-list.yaml lists >= 3 authoritative sources whose terms permit derivative works, including at least one standard (non-high-stakes) source for the M0 pilot",
+    "Each entry records: name, canonical URL, version/date, retrieval date, license name + URL, derivativesAllowed flag, required attribution string, risk-domain classification, snapshotHash (SHA-256), and snapshotArchiveUrl where available",
+    "Each entry has verifiedBy and verifiedDate; any source with unclear or incompatible terms is marked excluded with a reason",
+    "No source whose license forbids or does not clearly permit derivatives is listed as usable",
+    "File validates against sourceAllowListSchema and passes CI structural checks (tooling-001)"
+  ],
+  "resources": [
+    "C:/code/elyos/planning/projects/easy-read-plus/PLAN.md",
+    "C:/code/elyos/docs/good-deed-definition.md",
+    "UK Open Government Licence (OGL) terms",
+    "US federal public-domain / content-use notices",
+    "Inclusion Europe Information for All standards"
+  ],
+  "output": "sources/allow-list.yaml plus a short README documenting the allow-list schema and verification process",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}
